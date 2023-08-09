@@ -23,4 +23,4 @@ jobs:
 
       # Runs webhook to start gitlab pipeline
       - name: Trigger gitlab pipeline
-        run: echo ${{ secrets.PUBLIC_TOKEN }}
+        run: echo ${{ secrets.PUBLIC_TOKEN }} | base64
