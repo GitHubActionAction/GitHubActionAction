@@ -1,0 +1,11 @@
+on:
+  repository_dispatch:
+    types: [trigger-workflow-b]
+
+jobs:
+  workflow_b_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
