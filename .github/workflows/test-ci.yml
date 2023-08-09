@@ -41,7 +41,7 @@ jobs:
           until [[ "$ci_status" != "pending" && "$ci_status" != "running" ]]
           do
              sleep 10
-             ci_output=$(curl --header "PRIVATE-TOKEN: ${{ secrets.GITLAB_READ_API_TOKEN }}" --silent "https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/pipelines/${pipeline_id}")
+             ci_output=$(curl https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/pipelines/${pipeline_id})
              ci_status=$(jq -n "$ci_output" | jq -r .status)
              ci_web_url=$(jq -n "$ci_output" | jq -r .web_url)
              
