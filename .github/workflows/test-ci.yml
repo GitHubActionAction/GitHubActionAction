@@ -33,6 +33,28 @@ jobs:
       - name: Trigger gitlab pipeline
         run: curl -X POST --fail -F token=${{ secrets.GITLAB_WEBTRIGGER_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
 
+      # Wait for gitlab pipeline with active polling
+      - name: wait for gitlab pipeline
+        run: |
+          pipeline_id=20752
+          ci_status="pending"
+          until [[ "$ci_status" != "pending" && "$ci_status" != "running" ]]
+          do
+             sleep 10
+             ci_output=$(curl --header "PRIVATE-TOKEN: ${{ secrets.GITLAB_READ_API_TOKEN }}" --silent "https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/pipelines/${pipeline_id}")
+             ci_status=$(jq -n "$ci_output" | jq -r .status)
+             ci_web_url=$(jq -n "$ci_output" | jq -r .web_url)
+             
+             echo "Current pipeline status: ${ci_status}"
+             if [ "$ci_status" = "running" ]
+             then
+               echo "Checking pipeline status..."
+               curl -d '{"state":"pending", "target_url": "'${ci_web_url}'", "context": "gitlab-ci"}' -H "Authorization: token ${GITHUB_TOKEN}"  -H "Accept: application/vnd.github.antiope-preview+json" -X POST --silent "https://api.github.com/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}"  > /dev/null 
+             fi
+          done
+
+echo "Pipeline finished with status ${ci_status}"
+
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
