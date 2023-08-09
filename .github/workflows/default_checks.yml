@@ -16,8 +16,8 @@ jobs:
             const data = await github.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              workflow_id: trigger_workflow.yml,  // Replace with actual workflow file name
-              ref: main,  // Replace with the target branch name
+              workflow_id: "trigger_workflow.yml",  // Replace with actual workflow file name
+              ref: "main",  // Replace with the target branch name
             });
             console.log(data);
 
