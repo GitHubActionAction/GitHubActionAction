@@ -36,7 +36,7 @@ jobs:
       # Wait for gitlab pipeline with active polling
       - name: wait for gitlab pipeline
         run: |
-          pipeline_id=20752
+          pipeline_id=$(curl --header "PRIVATE-TOKEN: ${{ secrets.GITLAB_READ_API_TOKEN }}" --silent "https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/pipelines" | jq '.[0].id')
           ci_status="pending"
           until [[ "$ci_status" != "pending" && "$ci_status" != "running" ]]
           do
