@@ -1,6 +1,6 @@
 on:
   repository_dispatch:
-    types: [trigger-workflow-b]
+    types: [trigger_workflow]
 
 jobs:
   workflow_b_job:
