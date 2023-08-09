@@ -11,7 +11,7 @@ jobs:
       - name: Trigger Workflow B on Different Branch
         uses: actions/github-script@v5
         with:
-          github-token: ${{ secrets.PUPLIC_TOKEN }}
+          github-token: ${{ secrets.ENV_TOKEN }}
           script: |
             const data = await github.actions.createWorkflowDispatch({
               owner: context.repo.owner,
