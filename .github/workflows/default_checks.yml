@@ -11,14 +11,9 @@ jobs:
       - name: Trigger Workflow B on Different Branch
         uses: actions/github-script@v5
         with:
-          github-token: ${{ secrets.ENV_TOKEN }}
+          github-token: ${{ secrets.PUBLIC_TOKEN }}
           script: |
-            const data = await github.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: "trigger_workflow.yml",  // Replace with actual workflow file name
-              ref: "main",  // Replace with the target branch name
-            });
+            const data = await github.actions.createWorkflowDispatch({});
             console.log(data);
 
 
