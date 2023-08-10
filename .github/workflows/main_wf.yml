@@ -44,6 +44,10 @@ jobs:
         run: |
           git checkout ${{ github.event.workflow_run.head_sha }}
           git status
+
+      - name: push to gitlab
+        run: |
+          git push gitlab ${{ github.event.workflow_run.head_sha }}
           
 
       # Runs webhook to start gitlab pipeline
