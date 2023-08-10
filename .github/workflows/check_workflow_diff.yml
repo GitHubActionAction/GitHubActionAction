@@ -27,10 +27,7 @@ jobs:
         run: |
           WORKFLOW_DIFF=$(git diff --name-only $DEFAULT_COMMIT_SHA...${{ github.sha }} .github/workflows)
           echo "WORKFLOW_DIFF=$WORKFLOW_DIFF" >> $GITHUB_ENV
-
-      - name: Display Diff
-        run: echo "Workflow Diff: $WORKFLOW_DIFF"
-
+        
       - name: Update Status Check
         if: env.WORKFLOW_DIFF != ''
         run: |
