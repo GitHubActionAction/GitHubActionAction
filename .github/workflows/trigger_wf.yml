@@ -9,7 +9,9 @@ jobs:
 
     steps:
       - name: Initiate the Workflow on Main
-        run: echo "This triggers the workflow on main."
+        run: |
+          echo "This triggers the workflow on main."
+          echo "Tag name from github.ref_name: ${{  github.ref_name }}"
 
 
 
