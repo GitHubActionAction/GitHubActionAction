@@ -23,10 +23,16 @@ jobs:
       # Runs webhook to start gitlab pipeline
       - name: Trigger gitlab pipeline
         run: |
-          echo ${{context.payload.workflow_run.id}}
           echo ${{github.head_ref}}
           curl -X POST --fail -F token=${{ secrets.ENV_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
-      # Wait for gitlab pipeline with active polling
+      
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
+          
       - name: wait for gitlab pipeline
         run: |
           pipeline_id=$(curl https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/pipelines | jq '.[0].id')
