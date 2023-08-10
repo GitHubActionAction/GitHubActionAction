@@ -19,7 +19,15 @@ It is saved with the name ```ENV_TOKEN```.
 This token is only accesible for jobs that are deployed in the ```protected_branches``` environment.
 
 ### Trigger Workflows
-```trigger.yml``` is just an arbitray github action. The only thing to take care of is to name it the right way. In this case it is named ```Trigger Workflow```. 
+```trigger.yml``` is just an arbitray github action. The only thing to take care of is to name the workflow the right way. In this case it is named ```Trigger Workflow``` as specified by 
+```
+name: Trigger Workflow
+
+on:
+  push:
+...
+```
+and it is executed each time someone pushs. 
 
 ```CI.yml``` contains all the magic.
 First define:
