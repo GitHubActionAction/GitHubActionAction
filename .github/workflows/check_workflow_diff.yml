@@ -15,16 +15,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Diff Workflow Directory
+      - name: List PR Workflows
+        run: |
+          PR_WORKFLOWS=$(ls ${GITHUB_WORKSPACE}/.github/workflows)
+          echo "Files in PR: $PR_WORKFLOWS"
+
+      - name: List Base Workflows
+        run: |
+          BASE_WORKFLOWS=$(git ls-tree --name-only ${{ github.event.pull_request.base.sha }} .github/workflows)
+          echo "Files in Base: $BASE_WORKFLOWS"
+
+      - name: Compare Workflows
         id: diff
         run: |
-          PR_WORKFLOWS=$(git ls-tree --name-only ${{ github.event.pull_request.head.sha }} .github/workflows)
-          BASE_WORKFLOWS=$(git ls-tree --name-only ${{ github.event.pull_request.base.sha }} .github/workflows)
-
           if [[ "$PR_WORKFLOWS" != "$BASE_WORKFLOWS" ]]; then
             echo "Workflow directories are not equivalent"
-            echo "Files in PR: $PR_WORKFLOWS"
-            echo "Files in Base: $BASE_WORKFLOWS"
             exit 1
           else
             echo "Workflow directories are equivalent"
