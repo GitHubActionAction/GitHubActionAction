@@ -15,17 +15,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Fetch Latest Default Branch
-        run: git fetch origin ${{ github.event.default_branch }}:${{ github.event.default_branch }}
-
-      - name: Get Latest Default Branch Commit
-        id: default_commit
-        run: echo "DEFAULT_COMMIT_SHA=$(git rev-parse origin/${{ github.event.default_branch }})" >> $GITHUB_ENV
-
       - name: Check Workflow Directory Changes
         id: diff
         run: |
-          WORKFLOW_DIFF=$(git diff --name-only $DEFAULT_COMMIT_SHA...${{ github.sha }} .github/workflows)
+          WORKFLOW_DIFF=$(git diff --name-only origin/${{ github.event.default_branch }}..${{ github.sha }} .github/workflows)
           echo "WORKFLOW_DIFF=$WORKFLOW_DIFF" >> $GITHUB_ENV
         
       - name: Update Status Check
