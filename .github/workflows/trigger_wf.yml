@@ -1,0 +1,17 @@
+name: Trigger Workflow
+
+on:
+  push:
+
+jobs:
+  trigger_workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Initiate the Workflow on Main
+      - run: echo "This triggers the workflow on main."
+
+
+
+
+
