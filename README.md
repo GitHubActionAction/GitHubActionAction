@@ -13,11 +13,10 @@ In that way the GITLAB_TOKEN is secure.
 
 ### Protect the TOKEN 
 We created an environment with protection rules, called ```protected_branches```
+In our case we made the rule such that only proteced branches can use this environment. (main)
 Within that environment we created a github_secret: the GITLAB_TOKEN. 
 It is saved with the name ```ENV_TOKEN```.
-
-This token is only accesible form the branches on which the environment applies to. 
-In our case we made the rule such that only proteced branches can use this environment. (main)
+This token is only accesible for jobs that are deployed in the ```protected_branches``` environment.
 
 ### Trigger Workflows
 ```trigger.yml``` is just an arbitray github action. The only thing to take care of is to name it the right way. In this case it is named ```Trigger Workflow```. 
