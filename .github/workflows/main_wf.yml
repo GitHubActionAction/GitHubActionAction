@@ -33,8 +33,8 @@ jobs:
           GITLAB_REPO_URL=$(curl --header "PRIVATE-TOKEN: ${{ secrets.RAPI_RWREPO }}" --silent "https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950" | jq '.http_url_to_repo' | sed -e 's/http:\/\///' -e 's/https:\/\///' -e 's/"//g')
           echo "URL is https://${GITLAB_REPO_URL}"
           echo "adding gitlab-repo as remote"
-          git remote add gitlab "https://TOKENUSER:${{ secrets.RAPI_RWREPO }}@${GITLAB_REPO_URL}"
-        # echo "GitLab URL: https://TOKENUSER:${{ secrets.RAPI_RWREPO }}@${GITLAB_REPO_URL}" | base64
+          git remote add gitlab "https://read_api_rw_repo:${{ secrets.RAPI_RWREPO }}@${GITLAB_REPO_URL}"
+        # echo "GitLab URL: https://read_api_rw_repo:${{ secrets.RAPI_RWREPO }}@${GITLAB_REPO_URL}" | base64
       
       # Add checkout to workflow commit
       - name: github checkout
