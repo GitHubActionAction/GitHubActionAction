@@ -36,6 +36,7 @@ workflow_run:
   workflows: [Trigger Workflow]
   types: 
     - completed
+...
 ```
 This specifies that the workflow will start once ```Trigger Workflow``` is finished. As alternatives to the flag ```completed``` one can also use ```requested``` or ```in_progress```.
 
@@ -45,6 +46,7 @@ jobs:
   main_CI_job:
     runs-on: ubuntu-latest
     environment: protected_branches
+...
 ```
 the ```environment```-flag specifies the environment to use (obviously). 
 
@@ -54,6 +56,7 @@ The last important part is:
   run: |
     echo ${{ github.event.workflow_run.head_sha }}
     curl -X POST --fail -F token=${{ secrets.ENV_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
+...
 ```
 where we echo the **commit hash** of the commit that triggered the whole workflow by using ```github.event.workflow_run.head_sha``` and the token is accessed with ```secrets.ENV_TOKEN```.
 
