@@ -1,7 +1,23 @@
 # GitHHubActionAction
 
-Solution 
-- halloe
+## Solution 
+To prevent storing login credentials we found a solution that consinsts of two ''.yml''' files. 
+- '''trigger.yml'''
+- '''CI.yml'''
+The first one defines a "dummy_workflow" that triggers the second workflow. 
+The second workflow is the actual call of the gitlab-CI that uses the GITLAB_TOKEN.
+This workflow will always be triggered on the default branch (main branch). 
+By protecting the main branch we make sure that the '''CI.yml''' ran, is always the real one and it is not changed buy someone to echo the GITLAB_TOKEN
+
+### Protect the TOKEN 
+We created an environment with protection rules. 
+Within that environment we created a github_secret: the GITLAB_TOKEN. 
+This token is only accesible form the branches on which the environment applies to. 
+In our case we made it onlz accesible from the main branch. 
+
+### Trigger Workflows
+'''trigger.yml''' is just an arbitray github action. 
+'''CI.yml'''
 
 We have several CI jobs that require an infrastructure that is not easily available in GitHub Actions runners:
 
