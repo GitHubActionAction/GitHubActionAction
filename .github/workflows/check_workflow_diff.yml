@@ -20,19 +20,16 @@ jobs:
           PR_WORKFLOWS=$(ls ${GITHUB_WORKSPACE}/.github/workflows)
           echo "Files in PR: $PR_WORKFLOWS"
 
-      - name: List Base Workflows
-        run: |
-          BASE_WORKFLOWS=$(git ls-tree --name-only ${{ github.event.pull_request.base.sha }} .github/workflows)
-          echo "Files in Base: $BASE_WORKFLOWS"
-
-      - name: Compare Workflows
+      - name: Check Workflow Directory Changes
         id: diff
         run: |
-          if [[ "$PR_WORKFLOWS" != "$BASE_WORKFLOWS" ]]; then
-            echo "Workflow directories are not equivalent"
+          WORKFLOW_DIFF=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.sha }} .github/workflows)
+          if [[ -n "$WORKFLOW_DIFF" ]]; then
+            echo "Workflow directories have changes:"
+            echo "$WORKFLOW_DIFF"
             exit 1
           else
-            echo "Workflow directories are equivalent"
+            echo "Workflow directories are unchanged"
           fi
 
       - name: Update Status Check
