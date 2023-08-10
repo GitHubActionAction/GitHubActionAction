@@ -12,7 +12,7 @@ By doing this we make sure that the ```CI.yml``` that is executed, is always the
 In that way the GITLAB_TOKEN is secure. 
 
 ### Protect the TOKEN 
-We created an environment with protection rules, called ```protected_branches```
+We created an environment with protection rules, called ```protected_branches```.
 In our case we made the rule such that only proteced branches can use this environment. (main)
 Within that environment we created a github_secret: the GITLAB_TOKEN. 
 It is saved with the name ```ENV_TOKEN```.
@@ -37,7 +37,7 @@ workflow_run:
   types: 
     - completed
 ```
-This specifies that the workflow will start once ```Trigger Workflow``` is finished. As alternatives to the flag ```completed``` one can also use  ```completed```, ```requested``` or ```in_progress```
+This specifies that the workflow will start once ```Trigger Workflow``` is finished. As alternatives to the flag ```completed``` one can also use ```requested``` or ```in_progress```.
 
 Next, specify 
 ```
@@ -55,7 +55,7 @@ The last important part is:
     echo ${{ github.event.workflow_run.head_sha }}
     curl -X POST --fail -F token=${{ secrets.ENV_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
 ```
-where we echo the **commit hash** of the commit that triggered the whole workflow by using ```github.event.workflow_run.head_sha``` and we call the token with ```screts.ENV_TOKEN```.
+where we echo the **commit hash** of the commit that triggered the whole workflow by using ```github.event.workflow_run.head_sha``` and the token is accessed with ```secrets.ENV_TOKEN```.
 
 
 
