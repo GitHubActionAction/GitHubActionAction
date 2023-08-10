@@ -1,4 +1,4 @@
-# GitHHubActionAction
+# GitHubActionAction
 
 ## Solution 
 To prevent storing login credentials we found a solution that consists of two ```.yml``` files. 
