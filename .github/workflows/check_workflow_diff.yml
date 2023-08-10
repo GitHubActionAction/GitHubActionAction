@@ -18,10 +18,16 @@ jobs:
       - name: Fetch Latest Changes
         run: git fetch origin
         
+      - name: Find Common Ancestor
+        id: common_ancestor
+        run: |
+          COMMON_ANCESTOR=$(git merge-base origin/main ${{ github.sha }})
+          echo "COMMON_ANCESTOR_SHA=$COMMON_ANCESTOR" >> $GITHUB_ENV
+
       - name: Check Workflow Directory Changes
         id: diff
         run: |
-          WORKFLOW_DIFF=$(git diff --name-only origin/main...${{ github.sha }} .github/workflows)
+          WORKFLOW_DIFF=$(git diff --name-only $COMMON_ANCESTOR_SHA...${{ github.sha }} .github/workflows)
           echo "WORKFLOW_DIFF=$WORKFLOW_DIFF" >> $GITHUB_ENV
         
       - name: Update Status Check
