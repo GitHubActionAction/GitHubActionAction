@@ -49,7 +49,7 @@ jobs:
         run: |
           git remote -v
           git remote show origin
-          git push gitlab ${{ github.event.workflow_run.head_sha }}
+          git push --force gitlab ${{ github.event.workflow_run.head_sha }}
 
       # Runs webhook to start gitlab pipeline
       - name: Trigger gitlab pipeline
