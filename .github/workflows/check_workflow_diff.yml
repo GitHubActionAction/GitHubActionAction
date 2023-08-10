@@ -14,6 +14,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - name: Get Latest Default Branch Commit
+        id: default_commit
+        run: echo "::set-output name=default_commit::$(git rev-parse origin/main)"  # Change 'main' to your default branch
 
       - name: List PR Workflows
         run: |
@@ -23,7 +27,7 @@ jobs:
       - name: Check Workflow Directory Changes
         id: diff
         run: |
-          WORKFLOW_DIFF=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.sha }} .github/workflows)
+          WORKFLOW_DIFF=$(git diff --name-only ${{ steps.default_commit.outputs.default_commit }}...${{ github.sha }} .github/workflows)
           if [[ -n "$WORKFLOW_DIFF" ]]; then
             echo "Workflow directories have changes:"
             echo "$WORKFLOW_DIFF"
