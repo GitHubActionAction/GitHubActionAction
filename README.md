@@ -19,7 +19,7 @@ In our case we made it onlz accesible from the main branch.
 '''trigger.yml''' is just an arbitray github action. 
 '''CI.yml''' contains all the magic.
 First define:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  /# Triggers the workflow on push or pull request events but only for the "main" branch
   workflow_run: 
     workflows: [Trigger Workflow]
     types: 
