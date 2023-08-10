@@ -17,8 +17,13 @@ In our case we made it onlz accesible from the main branch.
 
 ### Trigger Workflows
 '''trigger.yml''' is just an arbitray github action. 
-'''CI.yml'''
-
+'''CI.yml''' contains all the magic.
+First define:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  workflow_run: 
+    workflows: [Trigger Workflow]
+    types: 
+      - completed
 We have several CI jobs that require an infrastructure that is not easily available in GitHub Actions runners:
 
     GPU-equipped runners
