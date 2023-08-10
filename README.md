@@ -12,6 +12,7 @@ By protecting the main branch we make sure that the ```CI.yml``` ran, is always 
 ### Protect the TOKEN 
 We created an environment with protection rules. 
 Within that environment we created a github_secret: the GITLAB_TOKEN. 
+
 This token is only accesible form the branches on which the environment applies to. 
 In our case we made it onlz accesible from the main branch. 
 
