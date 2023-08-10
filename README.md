@@ -33,7 +33,6 @@ This specifies that the workflow will start once ```Trigger Workflow``` is finis
 Next, specify 
 ```
 jobs:
-
   main_CI_job:
     runs-on: ubuntu-latest
     environment: protected_branches
@@ -42,10 +41,10 @@ the ```environment```-flag specifies the environment to use (obviously).
 
 The last important part is the 
 ```
-      - name: Trigger gitlab pipeline
-        run: |
-          echo ${{ github.event.workflow_run.head_sha }}
-          curl -X POST --fail -F token=${{ secrets.ENV_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
+- name: Trigger gitlab pipeline
+  run: |
+    echo ${{ github.event.workflow_run.head_sha }}
+    curl -X POST --fail -F token=${{ **secrets.ENV_TOKEN** }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
 ```
 
 
