@@ -20,22 +20,19 @@ jobs:
 
       - name: Get Latest Default Branch Commit
         id: default_commit
-        run: echo "::set-output name=default_commit::$(git rev-parse origin/${{ github.event.default_branch }})"
+        run: echo "DEFAULT_COMMIT_SHA=$(git rev-parse origin/${{ github.event.default_branch }})" >> $GITHUB_ENV
 
       - name: Check Workflow Directory Changes
         id: diff
         run: |
-          WORKFLOW_DIFF=$(git diff --name-only ${{ steps.default_commit.outputs.default_commit }}...${{ github.sha }} .github/workflows)
-          if [[ -n "$WORKFLOW_DIFF" ]]; then
-            echo "Workflow directories have changes:"
-            echo "$WORKFLOW_DIFF"
-            exit 1
-          else
-            echo "Workflow directories are unchanged"
-          fi
+          WORKFLOW_DIFF=$(git diff --name-only $DEFAULT_COMMIT_SHA...${{ github.sha }} .github/workflows)
+          echo "WORKFLOW_DIFF=$WORKFLOW_DIFF" >> $GITHUB_ENV
+
+      - name: Display Diff
+        run: echo "Workflow Diff: $WORKFLOW_DIFF"
 
       - name: Update Status Check
-        if: ${{ steps.diff.outcome == 'failure' }}
+        if: env.WORKFLOW_DIFF != ''
         run: |
           curl -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
@@ -44,6 +41,6 @@ jobs:
             -d '{
               "state": "failure",
               "context": "workflow-directory-check",
-              "description": "Workflow directories are not equivalent",
+              "description": "Workflow directories have changes",
               "target_url": "https://example.com/workflow-check-results"
             }'
