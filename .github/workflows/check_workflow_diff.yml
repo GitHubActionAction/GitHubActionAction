@@ -15,13 +15,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Fetch Latest Changes
-        run: git fetch origin
-        
+      - name: Fetch Latest Main
+        run: git fetch origin main:main
+
       - name: List Workflow Directory Changes
         id: workflow_diff
         run: |
-          WORKFLOW_DIFF=$(git diff --name-only ${{ github.event.before }}...${{ github.sha }} .github/workflows)
+          WORKFLOW_DIFF=$(git diff --name-only origin/main...${{ github.sha }} .github/workflows | uniq)
           echo "WORKFLOW_DIFF=$WORKFLOW_DIFF" >> $GITHUB_ENV
         
       - name: Update Status Check
