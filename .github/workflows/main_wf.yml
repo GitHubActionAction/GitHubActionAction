@@ -50,7 +50,7 @@ jobs:
 
       - name: push to gitlab
         run: |
-          git push --force gitlab ${GITHUB_REF_NAME} # ${{ github.event.workflow_run.head_sha }}
+          git push --force gitlab ${{ github.event.workflow_run.head_sha }}
 
       # Runs webhook to start gitlab pipeline
       - name: Trigger gitlab pipeline
