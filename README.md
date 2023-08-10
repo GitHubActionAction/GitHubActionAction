@@ -1,4 +1,4 @@
-# GitHHubActionAction
+# GitHubActionAction
 
 Background
 
