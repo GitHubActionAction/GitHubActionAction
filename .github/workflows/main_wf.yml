@@ -22,6 +22,9 @@ jobs:
     
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - name: Fetch Latest Changes
+        run: git fetch origin
     
       # Mirror github to gitlab
       - name: mirror github
@@ -36,10 +39,12 @@ jobs:
           echo "adding gitlab-repo as remote"
           git remote add gitlab "https://TOKENUSER:${{ secrets.GITLAB_API_READ }}@${GITLAB_REPO_URL}"
       
-      # Add gitlab as remote
-      - name: gitlab remote
+      # Add checkout to workflow commit
+      - name: gitlab checkout
         run: |
           git checkout ${{ github.event.workflow_run.head_sha }}
+          git status
+          
 
       # Runs webhook to start gitlab pipeline
       - name: Trigger gitlab pipeline
