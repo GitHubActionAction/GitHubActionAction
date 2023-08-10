@@ -49,6 +49,7 @@ jobs:
         run: |
           git remote -v
           git remote show origin
+          sleep 3
 
       - name: push to gitlab
         run: |
