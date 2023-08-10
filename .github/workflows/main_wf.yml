@@ -23,7 +23,7 @@ jobs:
       # Runs webhook to start gitlab pipeline
       - name: Trigger gitlab pipeline
         run: |
-          echo ${{ github.event.workflow_run.head_branch }}
+          echo ${{ github.sha }}
           curl -X POST --fail -F token=${{ secrets.ENV_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
           
       - name: wait for gitlab pipeline
