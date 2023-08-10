@@ -24,7 +24,7 @@ jobs:
       - name: Trigger gitlab pipeline
         run: |
           curl -X POST --fail -F token=${{ secrets.ENV_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
-          echo 'Hello'
+          echo 'Hellooo'
       # Wait for gitlab pipeline with active polling
       - name: wait for gitlab pipeline
         run: |
