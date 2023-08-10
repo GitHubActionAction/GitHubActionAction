@@ -18,7 +18,7 @@ jobs:
       - name: Check Workflow Directory Changes
         id: diff
         run: |
-          WORKFLOW_DIFF=$(git diff --name-only origin/${{ github.event.default_branch }}..${{ github.sha }} .github/workflows)
+          WORKFLOW_DIFF=$(git diff --name-only origin/main...${{ github.sha }} .github/workflows)
           echo "WORKFLOW_DIFF=$WORKFLOW_DIFF" >> $GITHUB_ENV
         
       - name: Update Status Check
