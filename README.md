@@ -2,13 +2,14 @@
 
 ## Solution 
 To prevent storing login credentials we found a solution that consinsts of two ```.yml``` files. 
-- ```trigger.yml```
-- ```CI.yml```
+1. ```trigger.yml```
+2. ```CI.yml```
 
 The first one defines a "dummy_workflow" that triggers the second workflow. 
 The second workflow is the actual call of the gitlab-CI that uses the GITLAB_TOKEN.
-This workflow will always be triggered on the default branch (main branch). 
-By protecting the main branch we make sure that the ```CI.yml``` ran, is always the real one and it is not changed buy someone to echo the GITLAB_TOKEN
+This workflow will always be executed on the default branch (main branch). 
+By doing this we make sure that the ```CI.yml``` that is executed, is always the default branch (should be protected) and can not be changed buy someone permission. 
+In that way the GITLAB_TOKEN is secure. 
 
 ### Protect the TOKEN 
 We created an environment with protection rules, called ```protected_branches```
