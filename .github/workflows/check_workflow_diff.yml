@@ -15,8 +15,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Fetch Latest Main
-        run: git fetch origin main:main
+      - name: Fetch Latest Changes
+        run: git fetch origin
 
       - name: List Workflow Directory Changes
         id: workflow_diff
