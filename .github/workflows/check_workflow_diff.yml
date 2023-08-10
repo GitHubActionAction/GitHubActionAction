@@ -1,8 +1,10 @@
 name: Workflow Directory Check
 
 on:
+  push:
   pull_request:
     types:
+      - opened
       - synchronize
 
 jobs:
