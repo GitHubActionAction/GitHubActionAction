@@ -35,6 +35,11 @@ jobs:
         run: |
           echo "adding gitlab-repo as remote"
           git remote add gitlab "https://TOKENUSER:${{ secrets.GITLAB_API_READ }}@${GITLAB_REPO_URL}"
+      
+      # Add gitlab as remote
+      - name: gitlab remote
+        run: |
+          git checkout ${{ github.event.workflow_run.head_sha }}
 
       # Runs webhook to start gitlab pipeline
       - name: Trigger gitlab pipeline
