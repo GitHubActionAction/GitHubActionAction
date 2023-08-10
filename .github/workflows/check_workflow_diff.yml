@@ -15,14 +15,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
+      - name: Fetch Latest Default Branch
+        run: git fetch origin ${{ github.event.default_branch }}:${{ github.event.default_branch }}
+
       - name: Get Latest Default Branch Commit
         id: default_commit
-        run: echo "::set-output name=default_commit::$(git rev-parse origin/main)"  # Change 'main' to your default branch
-
-      - name: List PR Workflows
-        run: |
-          PR_WORKFLOWS=$(ls ${GITHUB_WORKSPACE}/.github/workflows)
-          echo "Files in PR: $PR_WORKFLOWS"
+        run: echo "::set-output name=default_commit::$(git rev-parse origin/${{ github.event.default_branch }})"
 
       - name: Check Workflow Directory Changes
         id: diff
