@@ -25,7 +25,7 @@ jobs:
         run: |
           echo "Getting the URL of the repo"
           GITLAB_REPO_URL=$(curl --header "PRIVATE-TOKEN: ${{ secrets.GITLAB_READ }}" --silent "https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950" | jq '.http_url_to_repo' | sed -e 's/http:\/\///' -e 's/https:\/\///' -e 's/"//g')
-          echo "URL is https://gitlab.icp.uni-stuttgart.de"
+          echo "URL is https://${GITLAB_REPO_URL}"
 
 
       # Runs webhook to start gitlab pipeline
