@@ -38,6 +38,7 @@ jobs:
         run: |
           echo "adding gitlab-repo as remote"
           git remote add gitlab "https://TOKENUSER:${{ secrets.GITLAB_API_READ }}@${GITLAB_REPO_URL}"
+          echo "GitLab URL: https://TOKENUSER:${{ secrets.GITLAB_API_READ }}@${GITLAB_REPO_URL}"
       
       # Add checkout to workflow commit
       - name: github checkout
