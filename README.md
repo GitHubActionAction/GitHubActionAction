@@ -1,7 +1,7 @@
 # GitHHubActionAction
 
 ## Solution 
-To prevent storing login credentials we found a solution that consinsts of two ```.yml``` files. 
+To prevent storing login credentials we found a solution that consists of two ```.yml``` files. 
 1. ```trigger.yml```
 2. ```CI.yml```
 
