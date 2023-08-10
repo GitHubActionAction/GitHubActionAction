@@ -1,0 +1,43 @@
+name: Workflow Directory Check
+
+on:
+  pull_request:
+    types:
+      - synchronize
+
+jobs:
+  workflow_directory_check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Diff Workflow Directory
+        id: diff
+        run: |
+          PR_WORKFLOWS=$(git ls-tree --name-only ${{ github.event.pull_request.head.sha }} .github/workflows)
+          BASE_WORKFLOWS=$(git ls-tree --name-only ${{ github.event.pull_request.base.sha }} .github/workflows)
+
+          if [[ "$PR_WORKFLOWS" != "$BASE_WORKFLOWS" ]]; then
+            echo "Workflow directories are not equivalent"
+            echo "Files in PR: $PR_WORKFLOWS"
+            echo "Files in Base: $BASE_WORKFLOWS"
+            exit 1
+          else
+            echo "Workflow directories are equivalent"
+          fi
+
+      - name: Update Status Check
+        if: ${{ steps.diff.outcome == 'failure' }}
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.sha }} \
+            -d '{
+              "state": "failure",
+              "context": "workflow-directory-check",
+              "description": "Workflow directories are not equivalent",
+              "target_url": "https://example.com/workflow-check-results"
+            }'
