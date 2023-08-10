@@ -11,23 +11,47 @@ This workflow will always be triggered on the default branch (main branch).
 By protecting the main branch we make sure that the ```CI.yml``` ran, is always the real one and it is not changed buy someone to echo the GITLAB_TOKEN
 
 ### Protect the TOKEN 
-We created an environment with protection rules. 
+We created an environment with protection rules, called ```protected_branches```
 Within that environment we created a github_secret: the GITLAB_TOKEN. 
 
 This token is only accesible form the branches on which the environment applies to. 
-In our case we made it onlz accesible from the main branch. 
+In our case we made the rule such that only proteced branches can use this environment. 
 
 ### Trigger Workflows
-```trigger.yml``` is just an arbitray github action. 
+```trigger.yml``` is just an arbitray github action. The only thing to take care of is to name it the right way. In this case it is named ```Trigger Workflow```. 
+
 ```CI.yml``` contains all the magic.
 First define:
 ```
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   workflow_run: 
     workflows: [Trigger Workflow]
     types: 
       - completed
 ```
+This specifies that the workflow will start once ```Trigger Workflow``` is finished. As alternatives to the flag ```completed``` one can also use  ```completed```, ```requested``` or ```in_progress```
+
+Next, specify 
+```
+jobs:
+
+  main_CI_job:
+    runs-on: ubuntu-latest
+    environment: protected_branches
+```
+the ```environment```-flag specifies the environment to use (obviously). 
+
+The last important part is the 
+```
+      - name: Trigger gitlab pipeline
+        run: |
+          echo ${{ github.event.workflow_run.head_sha }}
+          curl -X POST --fail -F token=${{ secrets.ENV_TOKEN }} -F ref=main https://gitlab.icp.uni-stuttgart.de/api/v4/projects/950/trigger/pipeline
+```
+
+
+
+
+
 We have several CI jobs that require an infrastructure that is not easily available in GitHub Actions runners:
 
     GPU-equipped runners
